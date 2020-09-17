@@ -100,7 +100,7 @@ for path in PATHS:
   accuracies = []
   for i,tol in enumerate(test_tolerances):
     start = time.time()
-    print "Processing", path, "at tolerance", tol
+    print("Processing", path, "at tolerance", tol)
     precision, recall, tp, fp, fn, acc = all_template_match_all_images(TEMPLATES, TEMPLATE_NAMES, path, tol=tol, display=False)
     precisions.append(precision)
     recalls.append(recall)
@@ -109,7 +109,7 @@ for path in PATHS:
     n_fn[i] += fn
     p_file.write(str(precision) + ' ')
     r_file.write(str(recall) + ' ')
-    print "took", time.time()-start, "s"
+    print("took", time.time()-start, "s")
   p_file.write('\n')
   r_file.write('\n')
 p_file.close()
@@ -133,4 +133,4 @@ plt.show()
 
 for path in ['data/struct22/sd/']:
   precision, recall, tp, fp, fn, acc = all_template_match_all_images(TEMPLATES, TEMPLATE_NAMES, path, tol=0.77, display=True)
-  print precision, recall, acc
+  print(precision, recall, acc)

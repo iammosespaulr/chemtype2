@@ -46,7 +46,7 @@ PATHS = ['data/' + structure + '/sd/' for structure in STRUCTURES]
 TEMPLATE_NAMES = ['OH', 'OR', 'O', 'H', 'N', 'RO']
 
 TRAIN_IMAGES = ['01.png', '09.png', '17.png', '25.png', '33.png']
-PYRAMID_SIZES = range(20,70,10)
+PYRAMID_SIZES = list(range(20,70,10))
 
 def get_max_size(x_list, y_list):
   s = max([max(x_list), max(y_list)])
@@ -77,7 +77,7 @@ def crop_and_resize_image(thresh_im, size_before_pad, pad):
     if np.count_nonzero(row) > 0:
       top_crop = y
       break
-  for y in reversed(range(height)):
+  for y in reversed(list(range(height))):
     row = thresh_im[y,:]
     if np.count_nonzero(row) > 0:
       bottom_crop = y
@@ -87,7 +87,7 @@ def crop_and_resize_image(thresh_im, size_before_pad, pad):
     if np.count_nonzero(col) > 0:
       left_crop = x
       break
-  for x in reversed(range(width)):
+  for x in reversed(list(range(width))):
     col = thresh_im[:,x]
     if np.count_nonzero(col) > 0:
       right_crop = x
@@ -122,36 +122,36 @@ def get_training_examples(path, n_per_size=5):
   for i, image in enumerate(os.listdir(path)):
     if image[len(image)-6:len(image)] not in TRAIN_IMAGES:
       continue
-    print image
+    print(image)
     im = cv2.imread(path+image,0)
     ret,im = cv2.threshold(im,100,255,cv2.THRESH_BINARY_INV)
     height,width = im.shape
     j = 0
     for size in PYRAMID_SIZES:
-      print size
+      print(size)
       n_subs = 0
       while n_subs < n_per_size:
-        x = random.choice(range(0,width-size))
-        y = random.choice(range(0,height-size))
+        x = random.choice(list(range(0,width-size)))
+        y = random.choice(list(range(0,height-size)))
         sub = im[y:y+size, x:x+size]
         if np.count_nonzero(sub) == 0:
             continue
         plt.imshow(sub, cmap='Greys_r')
         plt.ion()
         plt.show()
-        letter = raw_input("Letter (x for none)--> ")
+        letter = input("Letter (x for none)--> ")
         plt.close()
         if letter == 'x':
           cv2.imwrite('train/none/' + image + '_' + str(j) + '.png', sub)
           n_subs += 1
           j += 1
         elif letter in ['h','o','r', 'n']:
-          print letter
+          print(letter)
           cv2.imwrite('train/' + letter + '/' + image + '_' + str(j) + '.png', sub)
           n_subs += 1
           j += 1
         else:
-          print "letter not recognized"
+          print("letter not recognized")
 
 #for path in PATHS:
 #  get_training_examples(path)
@@ -223,7 +223,7 @@ def train_ocr_classifier(train_split=0.9, classifier_type='nn'):
 
   n_examples = len(y)
   n_train = int(train_split*n_examples)
-  train_indices = np.random.choice(range(n_examples), size=n_train, replace=False)
+  train_indices = np.random.choice(list(range(n_examples)), size=n_train, replace=False)
   X_train = []
   X_test = []
   weights_train = []
@@ -258,7 +258,7 @@ def train_ocr_classifier(train_split=0.9, classifier_type='nn'):
         if y_test[i] == np.argmax(prediction):
           n_correct += 1
       score = n_correct/n_total
-      print score
+      print(score)
     return classifier
   else:
     if classifier_type == 'svm':
@@ -268,7 +268,7 @@ def train_ocr_classifier(train_split=0.9, classifier_type='nn'):
     classifier.fit(X_train,y_train)
     if train_split < 1:
       score = classifier.score(X_test, y_test)
-      print score
+      print(score)
     return classifier, classifier_type
 '''
 avg = []

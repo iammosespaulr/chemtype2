@@ -29,14 +29,14 @@ def resize_all(path, new_size=(400,300)):
   try:
     os.mkdir(path + "sd/")
   except OSError:
-    print "os error"
+    print("os error")
   for i,image in enumerate(os.listdir(path)):
     if image[len(image)-4:len(image)] != '.png':
       continue
     full_name = path + image
     im = cv2.imread(full_name)
     resized_im = cv2.resize(im, new_size)
-    print 'writing out to', path+'sd/'+image
+    print('writing out to', path+'sd/'+image)
     cv2.imwrite(path + 'sd/' + image, resized_im)
 
 for path in PATHS:

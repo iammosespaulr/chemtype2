@@ -76,7 +76,7 @@ for path in PATHS:
       tp_t += tp
     except IOError:
       pass
-  print corr_t, total, fp_t, fn_t, tp_t
+  print(corr_t, total, fp_t, fn_t, tp_t)
 
 for path in PATHS:
   corr_t = 0.0
@@ -105,4 +105,4 @@ for path in PATHS:
       tp_t += tp
     except IOError:
       pass
-  print corr_t, total, fp_t, fn_t, tp_t
+  print(corr_t, total, fp_t, fn_t, tp_t)

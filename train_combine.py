@@ -47,7 +47,7 @@ TEMPLATE_NAMES = ['OH', 'OR', 'O', 'H', 'N', 'RO']
 SINGLE_TEMPLATE_NAMES = ['O', 'H', 'N', 'R']
 
 TRAIN_IMAGES = ['01.png', '09.png', '17.png', '25.png', '33.png']
-PYRAMID_SIZES = range(20,70,10)
+PYRAMID_SIZES = list(range(20,70,10))
 STEP = 5
 
 def get_max_size(x_list, y_list):
@@ -79,7 +79,7 @@ def crop_and_resize_image(thresh_im, size_before_pad, pad):
     if np.count_nonzero(row) > 0:
       top_crop = y
       break
-  for y in reversed(range(height)):
+  for y in reversed(list(range(height))):
     row = thresh_im[y,:]
     if np.count_nonzero(row) > 0:
       bottom_crop = y
@@ -89,7 +89,7 @@ def crop_and_resize_image(thresh_im, size_before_pad, pad):
     if np.count_nonzero(col) > 0:
       left_crop = x
       break
-  for x in reversed(range(width)):
+  for x in reversed(list(range(width))):
     col = thresh_im[:,x]
     if np.count_nonzero(col) > 0:
       right_crop = x
